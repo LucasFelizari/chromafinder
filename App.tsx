@@ -1,20 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {extendTheme, NativeBaseProvider } from 'native-base';
+import { useFonts } from 'expo-font';
+import { Main } from './src/screens/Main';
+import * as Font from 'expo-font';
+import { useEffect } from 'react';
+
+async function loadFonts() {
+  await Font.loadAsync({
+    'ChangaOne-Regular': require('./assets/fonts/ChangaOne-Regular.ttf'),
+  });
+}
 
 export default function App() {
+  useEffect(() => {
+    loadFonts();
+  }, []);
+ 
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NativeBaseProvider >
+     <Main />
+    </NativeBaseProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+
+const theme = extendTheme({
+  fonts: {
+    heading: 'ChangaOne-Regular',
+    body: "ChangaOne",
+    mono: "ChangaOne",
+  }
 });
+
+
