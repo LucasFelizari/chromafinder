@@ -11,17 +11,20 @@ export function Inicio() {
             p={12}
             bg="#1E1E1E"
         >
-            <Center mt={8} >
-                <Heading size="2xl" color="white"
+            <Center mt={20} >
+                <Heading size="2xl" color="#00b14a"
+
+                fontWeight='bold'
+                textTransform='uppercase'
                 >
-                    Choma Finder
+                    Chroma Finder
                 </Heading>
             </Center>
 
             <Spacer />
             <VStack width="150px" space={3}>
                 <Button
-                    bg="#22CF92"
+                    bg="#00b14a"
                     borderRadius={8}
                     onPress={() => navigation.navigate('Idioma')}
                 >
@@ -32,7 +35,7 @@ export function Inicio() {
 
                 </Button>
                 <Button
-                    bg="#22CF92"
+                    bg="#00b14a"
                     borderRadius={8}
                     onPress={() => navigation.navigate('Historico')}
                 >
@@ -42,7 +45,7 @@ export function Inicio() {
             <VStack width="full" my={12}>
                 <Button
                     borderRadius={20}
-                    bg="#22CF92"
+                    bg="#00b14a"
                     onPress={() => navigation.navigate('Camera')}
                 >
                     <Icon

@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { Box, Button, Center, Heading, HStack, Icon, IconButton, Stack } from "native-base";
+import { Box, Button, Center, Heading, HStack, Icon, IconButton, Spinner, Stack, VStack } from "native-base";
 import { AppRoutesProps } from "../routes/app.routes";
 import { Camera as ExpoCamera, CameraType } from 'expo-camera'
 import { useEffect, useRef, useState } from "react";
@@ -10,6 +10,7 @@ import obterNomeDaCor from "../services/obterNomeDaCor";
 
 export function Camera() {
     const navigation = useNavigation<AppRoutesProps>();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [type, setType] = useState(CameraType.back);
     const [hasPermission, setHasPermission] = useState<boolean>();
     const [corObtida, setCorObtida] = useState<string>('');
@@ -17,8 +18,8 @@ export function Camera() {
     const cameraRef = useRef(null);
 
     async function handleTakePicture() {
+        setIsLoading(true);
         if (cameraRef.current) {
-
             const { base64 } = await cameraRef.current.takePictureAsync({
                 base64: true,
                 quality: 0.05,
@@ -41,11 +42,8 @@ export function Camera() {
         if (nomeDaCor) {
             setNomeCor(nomeDaCor);
         }
+        setIsLoading(false);
     }
-
-    useEffect(() => {
-        console.log(nomeCor);
-    }, [nomeCor]);
 
     useEffect(() => {
         buscarNomeDaCor();
@@ -91,17 +89,45 @@ export function Camera() {
                             }}
                         />
                     </HStack>
-                    <Center mb={16} >
-                        <Button
-                            colorScheme='green'
-                            rounded='full'
-                            size='lg'
-                            onPress={handleTakePicture}
-                            p={6}
-                        >
-                            <Icon as={Feather} name='camera' size={10} color='white' />
-                        </Button>
-                    </Center>
+                    {isLoading && (
+                        <Center>
+                            <Spinner
+                                size='lg'
+                                color='green.500'
+                                mt={4}
+                            />
+                        </Center>
+                    )
+                    }
+                    <VStack>
+                        {nomeCor && corObtida &&
+                            <Center>
+                                <Box
+                                    minW={40}
+                                    minH={10}
+                                    backgroundColor={corObtida ? '#' + corObtida : '#818181'}
+                                    borderRadius={10}
+                                    p={4}
+                                >
+                                    <Heading color='white' size='md' textAlign='center'>
+                                        {nomeCor ? nomeCor : 'Cor não encontrada'}
+                                    </Heading>
+                                </Box>
+                            </Center>
+                        }
+                        <Center mb={16} mt={10} >
+                            <Button
+                                colorScheme='green'
+                                rounded='full'
+                                size='lg'
+                                onPress={handleTakePicture}
+                                p={6}
+                                disabled={isLoading}
+                            >
+                                <Icon as={Feather} name='camera' size={10} color='white' />
+                            </Button>
+                        </Center>
+                    </VStack>
                 </Box>
             </ExpoCamera>
         </Stack>
