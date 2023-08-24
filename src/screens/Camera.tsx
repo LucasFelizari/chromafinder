@@ -1,17 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
 import { Box, Button, Center, Heading, HStack, Icon, IconButton, Stack } from "native-base";
 import { AppRoutesProps } from "../routes/app.routes";
-import { Camera as ExpoCamera } from 'expo-camera'
+import { Camera as ExpoCamera, CameraType } from 'expo-camera'
 import { useEffect, useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import analizarImagem from "../services/analisarImagem";
 import converterArquivo from "../services/converterAquivo";
+import obterNomeDaCor from "../services/obterNomeDaCor";
 
 export function Camera() {
     const navigation = useNavigation<AppRoutesProps>();
-    const [type, setType] = useState(ExpoCamera.Constants.Type.back);
-    const [hasPermission, setHasPermission] = useState(null);
-    const [corObtida, setCorObtida] = useState('');
+    const [type, setType] = useState(CameraType.back);
+    const [hasPermission, setHasPermission] = useState<boolean>();
+    const [corObtida, setCorObtida] = useState<string>('');
+    const [nomeCor, setNomeCor] = useState<string>('');
     const cameraRef = useRef(null);
 
     async function handleTakePicture() {
@@ -22,18 +24,31 @@ export function Camera() {
                 quality: 0.05,
             });
 
-           const imagemConvertida = await converterArquivo(base64);
+            const imagemConvertida = await converterArquivo(base64);
 
-           if(imagemConvertida) {
-            const cor  = await analizarImagem(imagemConvertida);
-            // setCorObtida(cor);
-           }
-           
+            if (imagemConvertida) {
+                const returno = await analizarImagem(imagemConvertida);
+                if (returno.sucesso && returno.cor) {
+                    setCorObtida(returno.cor);
+                }
+            }
+        }
+    }
+
+    async function buscarNomeDaCor() {
+        if (!corObtida) return;
+        const nomeDaCor = await obterNomeDaCor(corObtida);
+        if (nomeDaCor) {
+            setNomeCor(nomeDaCor);
         }
     }
 
     useEffect(() => {
-        console.log(corObtida);
+        console.log(nomeCor);
+    }, [nomeCor]);
+
+    useEffect(() => {
+        buscarNomeDaCor();
     }, [corObtida]);
 
     useEffect(() => {
@@ -62,16 +77,16 @@ export function Camera() {
                     <HStack justifyContent='space-between' px={4}>
                         <IconButton
                             icon={<Feather name="arrow-left" color="#FFFFFF" size={50} />}
-                           
+
                             onPress={() => navigation.goBack()}
                         />
                         <IconButton
                             icon={<Feather name="rotate-cw" color="#FFFFFF" size={40} />}
                             onPress={() => {
                                 setType(
-                                    type === ExpoCamera.Constants.Type.back
-                                        ? ExpoCamera.Constants.Type.front
-                                        : ExpoCamera.Constants.Type.back
+                                    type === CameraType.back
+                                        ? CameraType.front
+                                        : CameraType.back
                                 );
                             }}
                         />
