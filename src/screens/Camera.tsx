@@ -9,6 +9,7 @@ import converterArquivo from "../services/converterAquivo";
 import obterNomeDaCor from "../services/obterNomeDaCor";
 import * as Speech from 'expo-speech';
 import obterCorImagem from "../services/obterCorImagem";
+import obterDescricaoImagem from "../services/obterDescricaoImagem";
 
 export function Camera() {
     const navigation = useNavigation<AppRoutesProps>();
@@ -17,6 +18,7 @@ export function Camera() {
     const [hasPermission, setHasPermission] = useState<boolean>();
     const [corObtida, setCorObtida] = useState<string>('');
     const [nomeCor, setNomeCor] = useState<string>('');
+    const [descricaoImagem, setDescricaoImagem] = useState<string>('');
     let camera: ExpoCamera | null;
 
     async function handleTakePicture() {
@@ -25,12 +27,26 @@ export function Camera() {
         if (camera) {
             const imgBase64 = await tirarFoto();
             const imagemConvertida = imgBase64 && await converterArquivo(imgBase64);
-
             if (imagemConvertida) {
-                const returno = await obterCorImagem(imagemConvertida);
-                if (returno.sucesso && returno.cor) {
-                    setCorObtida(returno.cor);
-                }
+                try {
+                    Promise.all([
+                        obterCorImagem(imagemConvertida),
+                        obterDescricaoImagem(imagemConvertida)
+                    ]).then((values) => {
+                        const corImagem = values[0];
+                        const descricaoImagem = values[1];
+                        if (corImagem) {
+                            setCorObtida(corImagem);
+                        }
+                        if (descricaoImagem) {
+                        setDescricaoImagem(descricaoImagem);
+                    }
+                });
+                
+            } catch (error) {
+                console.log(error);
+                speak('Não foi possível obter as informações');
+            }
             }
         }
     }
@@ -44,15 +60,15 @@ export function Camera() {
         setNomeCor('');
     }
 
-  async function tirarFoto() {
-    if (camera) {
-        const { base64 } = await camera.takePictureAsync({
-            base64: true,
-            quality: 0.05,
-        });
-        return base64;
-     }
-    }   
+    async function tirarFoto() {
+        if (camera) {
+            const { base64 } = await camera.takePictureAsync({
+                base64: true,
+                quality: 0.50,
+            });
+            return base64;
+        }
+    }
 
     async function buscarNomeDaCor() {
         if (!corObtida) return;
@@ -61,8 +77,14 @@ export function Camera() {
             setNomeCor(nomeDaCor);
         }
         setIsLoading(false);
-        speak("A cor predominante é " + nomeDaCor );
+       
     }
+
+    useEffect(() => {
+        if (!!nomeCor && !!descricaoImagem) {
+            speak(descricaoImagem + ", a cor predominante é " + nomeCor);
+        }
+    }, [nomeCor, descricaoImagem]);
 
     useEffect(() => {
         buscarNomeDaCor();
@@ -90,7 +112,7 @@ export function Camera() {
                 type={type}
                 ref={(r) => {
                     camera = r
-                    }}
+                }}
             >
                 <Box mt={12} flex={1} justifyContent='space-between'>
                     <HStack justifyContent='space-between' px={4}>

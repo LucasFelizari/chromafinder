@@ -1,13 +1,16 @@
+import axios from "axios";
 
-import axios from 'axios';
 
-export default async function obterCorImagem(imagem: Buffer): Promise<string> {
+
+
+export default async function obterDescricaoImagem(imagem: Buffer): Promise<string> {
     if (!!imagem) {
         const subscriptionKey = 'ce5b7ed8cd98493abd254149952bdd80';
-        const uriBase = 'https://brazilsouth.api.cognitive.microsoft.com/vision/v3.2/analyze';
+        const uriBase = 'https://brazilsouth.api.cognitive.microsoft.com/vision/v3.2/describe';
         const params = {
-            visualFeatures: 'Color',
-            language: 'pt-BR'
+            maxCandidates: 1,
+            language: 'pt',
+            'model-version': 'latest'
         };
 
         const headers = {
@@ -23,16 +26,13 @@ export default async function obterCorImagem(imagem: Buffer): Promise<string> {
                 transformResponse: [(data) => JSON.parse(data)],
             }
             );
-
-            const { accentColor } = response.data.color;
-            return accentColor;
-
-        } catch (error: any) {
-            throw new Error("Não foi possivel capturar a cor da imagem");
+            const { captions } = response.data.description;
+            return captions[0].text;
+        }
+        catch (error: any) {
+            console.log(error);
+            throw new Error("Não foi possivel capturar a descrição da imagem");
         }
     }
-
     throw new Error('Imagem não possivel capturar a imagem');
 }
-
-
