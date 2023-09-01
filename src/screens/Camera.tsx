@@ -4,9 +4,11 @@ import { AppRoutesProps } from "../routes/app.routes";
 import { Camera as ExpoCamera, CameraType } from 'expo-camera'
 import { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
-import analizarImagem from "../services/analisarImagem";
+
 import converterArquivo from "../services/converterAquivo";
 import obterNomeDaCor from "../services/obterNomeDaCor";
+import * as Speech from 'expo-speech';
+import obterCorImagem from "../services/obterCorImagem";
 
 export function Camera() {
     const navigation = useNavigation<AppRoutesProps>();
@@ -15,7 +17,6 @@ export function Camera() {
     const [hasPermission, setHasPermission] = useState<boolean>();
     const [corObtida, setCorObtida] = useState<string>('');
     const [nomeCor, setNomeCor] = useState<string>('');
-
     let camera: ExpoCamera | null;
 
     async function handleTakePicture() {
@@ -26,12 +27,16 @@ export function Camera() {
             const imagemConvertida = imgBase64 && await converterArquivo(imgBase64);
 
             if (imagemConvertida) {
-                const returno = await analizarImagem(imagemConvertida);
+                const returno = await obterCorImagem(imagemConvertida);
                 if (returno.sucesso && returno.cor) {
                     setCorObtida(returno.cor);
                 }
             }
         }
+    }
+
+    function speak(texto: string) {
+        Speech.speak(texto, { language: 'pt-BR' });
     }
 
     function resetarValores() {
@@ -56,6 +61,7 @@ export function Camera() {
             setNomeCor(nomeDaCor);
         }
         setIsLoading(false);
+        speak("A cor predominante é " + nomeDaCor );
     }
 
     useEffect(() => {

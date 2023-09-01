@@ -6,7 +6,7 @@ type AnalisarImagemReturn = {
     cor?: string;
 }
 
-export default async function analisarImagem(imagem: Buffer): Promise<AnalisarImagemReturn> {
+export default async function obterCorImagem(imagem: Buffer): Promise<AnalisarImagemReturn> {
     if (!!imagem) {
         const subscriptionKey = 'ce5b7ed8cd98493abd254149952bdd80';
         const uriBase = 'https://brazilsouth.api.cognitive.microsoft.com/vision/v3.2/analyze';
