@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Box, Button, Center, Heading, HStack, Icon, IconButton, Spinner, Stack, VStack } from "native-base";
 import { AppRoutesProps } from "../routes/app.routes";
 import { Camera as ExpoCamera, CameraType } from 'expo-camera'
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import analizarImagem from "../services/analisarImagem";
 import converterArquivo from "../services/converterAquivo";
@@ -15,17 +15,15 @@ export function Camera() {
     const [hasPermission, setHasPermission] = useState<boolean>();
     const [corObtida, setCorObtida] = useState<string>('');
     const [nomeCor, setNomeCor] = useState<string>('');
-    const cameraRef = useRef(null);
+
+    let camera: ExpoCamera | null;
 
     async function handleTakePicture() {
         setIsLoading(true);
-        if (cameraRef.current) {
-            const { base64 } = await cameraRef.current.takePictureAsync({
-                base64: true,
-                quality: 0.05,
-            });
-
-            const imagemConvertida = await converterArquivo(base64);
+        resetarValores();
+        if (camera) {
+            const imgBase64 = await tirarFoto();
+            const imagemConvertida = imgBase64 && await converterArquivo(imgBase64);
 
             if (imagemConvertida) {
                 const returno = await analizarImagem(imagemConvertida);
@@ -35,6 +33,21 @@ export function Camera() {
             }
         }
     }
+
+    function resetarValores() {
+        setCorObtida('');
+        setNomeCor('');
+    }
+
+  async function tirarFoto() {
+    if (camera) {
+        const { base64 } = await camera.takePictureAsync({
+            base64: true,
+            quality: 0.05,
+        });
+        return base64;
+     }
+    }   
 
     async function buscarNomeDaCor() {
         if (!corObtida) return;
@@ -69,7 +82,9 @@ export function Camera() {
             <ExpoCamera
                 style={{ flex: 1 }}
                 type={type}
-                ref={cameraRef}
+                ref={(r) => {
+                    camera = r
+                    }}
             >
                 <Box mt={12} flex={1} justifyContent='space-between'>
                     <HStack justifyContent='space-between' px={4}>
