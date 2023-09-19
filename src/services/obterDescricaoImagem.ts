@@ -26,6 +26,7 @@ export default async function obterDescricaoImagem(imagem: Buffer): Promise<stri
                 transformResponse: [(data) => JSON.parse(data)],
             }
             );
+            console.log(response.data);
             const { captions } = response.data.description;
             return captions[0].text;
         }

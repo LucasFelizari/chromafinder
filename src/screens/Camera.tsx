@@ -10,6 +10,8 @@ import obterNomeDaCor from "../services/obterNomeDaCor";
 import * as Speech from 'expo-speech';
 import obterCorImagem from "../services/obterCorImagem";
 import obterDescricaoImagem from "../services/obterDescricaoImagem";
+import '../utils/i18n';
+import { useTranslation } from 'react-i18next';
 
 export function Camera() {
     const navigation = useNavigation<AppRoutesProps>();
@@ -19,36 +21,33 @@ export function Camera() {
     const [corObtida, setCorObtida] = useState<string>('');
     const [nomeCor, setNomeCor] = useState<string>('');
     const [descricaoImagem, setDescricaoImagem] = useState<string>('');
+    
     let camera: ExpoCamera | null;
+    const { t, i18n } = useTranslation();
 
     async function handleTakePicture() {
         setIsLoading(true);
         resetarValores();
-        if (camera) {
-            const imgBase64 = await tirarFoto();
-            const imagemConvertida = imgBase64 && await converterArquivo(imgBase64);
-            if (imagemConvertida) {
-                try {
-                    Promise.all([
-                        obterCorImagem(imagemConvertida),
-                        obterDescricaoImagem(imagemConvertida)
-                    ]).then((values) => {
-                        const corImagem = values[0];
-                        const descricaoImagem = values[1];
-                        if (corImagem) {
-                            setCorObtida(corImagem);
-                        }
-                        if (descricaoImagem) {
-                        setDescricaoImagem(descricaoImagem);
+        try {
+            const imagem = await tirarFoto();
+            if(!imagem) return;
+                Promise.all([
+                    obterCorImagem(imagem),
+                    obterDescricaoImagem(imagem)
+                ]).then((values) => {
+                    const corImagem = values[0];
+                    const descricaoImagem = values[1];
+                    if (corImagem) {
+                        setCorObtida(corImagem);
                     }
-                });
-                
+                    if (descricaoImagem) {
+                    setDescricaoImagem(descricaoImagem);
+                }
+            });
             } catch (error) {
                 console.log(error);
-                speak('Não foi possível obter as informações');
+                speak(t('erro obter dados'));
             }
-            }
-        }
     }
 
     function speak(texto: string) {
@@ -64,10 +63,12 @@ export function Camera() {
         if (camera) {
             const { base64 } = await camera.takePictureAsync({
                 base64: true,
-                quality: 0.50,
+                quality: 1,
             });
-            return base64;
+            const imagemConvertida = base64 && await converterArquivo(base64);
+            return imagemConvertida;
         }
+        throw new Error('Camera não encontrada');
     }
 
     async function buscarNomeDaCor() {
@@ -77,7 +78,6 @@ export function Camera() {
             setNomeCor(nomeDaCor);
         }
         setIsLoading(false);
-       
     }
 
     useEffect(() => {
@@ -102,7 +102,7 @@ export function Camera() {
     }
 
     if (hasPermission === false) {
-        return <Center><Heading>Sem acesso à câmera</Heading></Center>;
+        return <Center><Heading>{t('sem acesso camera')}</Heading></Center>;
     }
 
     return (
@@ -140,8 +140,7 @@ export function Camera() {
                                 mt={4}
                             />
                         </Center>
-                    )
-                    }
+                    )}
                     <VStack>
                         {nomeCor && corObtida &&
                             <Center>

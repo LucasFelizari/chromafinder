@@ -2,9 +2,14 @@ import { Box, Button, Center, Heading, Icon, Spacer, Text, VStack } from "native
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { AppRoutesProps } from "../routes/app.routes";
+import '../utils/i18n';
+import { useTranslation } from 'react-i18next';
 
 export function Inicio() {
     const navigation = useNavigation<AppRoutesProps>();
+
+    const { t, i18n } = useTranslation();
+
     return (
         <Center
             height="full"
@@ -30,7 +35,8 @@ export function Inicio() {
                 >
                     <Text 
                     style={{ color: 'white', fontWeight: 'bold' }}
-                    >IDIOMA
+                    >
+                      {t('idioma')}
                     </Text>
 
                 </Button>
@@ -39,7 +45,7 @@ export function Inicio() {
                     borderRadius={8}
                     onPress={() => navigation.navigate('Historico')}
                 >
-                    HISTÓRICO
+                  {t('historico')}
                 </Button>
             </VStack>
             <VStack width="full" my={12}>
