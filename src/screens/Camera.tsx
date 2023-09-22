@@ -7,11 +7,13 @@ import { Feather } from "@expo/vector-icons";
 
 import converterArquivo from "../services/converterAquivo";
 import obterNomeDaCor from "../services/obterNomeDaCor";
-import * as Speech from 'expo-speech';
+
 import obterCorImagem from "../services/obterCorImagem";
 import obterDescricaoImagem from "../services/obterDescricaoImagem";
 import '../utils/i18n';
 import { useTranslation } from 'react-i18next';
+import speak from "../hooks/speak";
+import obterNomeCorSemelhante from "../services/obterNomeCorSemelhante";
 
 export function Camera() {
     const navigation = useNavigation<AppRoutesProps>();
@@ -50,10 +52,6 @@ export function Camera() {
             }
     }
 
-    function speak(texto: string) {
-        Speech.speak(texto, { language: 'pt-BR' });
-    }
-
     function resetarValores() {
         setCorObtida('');
         setNomeCor('');
@@ -73,7 +71,8 @@ export function Camera() {
 
     async function buscarNomeDaCor() {
         if (!corObtida) return;
-        const nomeDaCor = await obterNomeDaCor(corObtida);
+        //const nomeDaCor = await obterNomeDaCor(corObtida);
+            const nomeDaCor = await obterNomeCorSemelhante(corObtida);
         if (nomeDaCor) {
             setNomeCor(nomeDaCor);
         }
