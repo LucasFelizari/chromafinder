@@ -18,9 +18,8 @@ export function Inicio() {
         >
             <Center mt={20} >
                 <Heading size="2xl" color="#00b14a"
-
-                fontWeight='bold'
-                textTransform='uppercase'
+                    fontWeight='bold'
+                    textTransform='uppercase'
                 >
                     Chroma Finder
                 </Heading>
@@ -33,10 +32,10 @@ export function Inicio() {
                     borderRadius={8}
                     onPress={() => navigation.navigate('Idioma')}
                 >
-                    <Text 
-                    style={{ color: 'white', fontWeight: 'bold' }}
+                    <Text
+                        style={{ color: 'white', fontWeight: 'bold' }}
                     >
-                      {t('idioma')}
+                        {t('idioma')}
                     </Text>
 
                 </Button>
@@ -45,7 +44,7 @@ export function Inicio() {
                     borderRadius={8}
                     onPress={() => navigation.navigate('Historico')}
                 >
-                  {t('historico')}
+                    {t('historico')}
                 </Button>
             </VStack>
             <VStack width="full" my={12}>

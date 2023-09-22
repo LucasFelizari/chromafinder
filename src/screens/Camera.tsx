@@ -23,7 +23,7 @@ export function Camera() {
     const [corObtida, setCorObtida] = useState<string>('');
     const [nomeCor, setNomeCor] = useState<string>('');
     const [descricaoImagem, setDescricaoImagem] = useState<string>('');
-    
+
     let camera: ExpoCamera | null;
     const { t, i18n } = useTranslation();
 
@@ -32,24 +32,24 @@ export function Camera() {
         resetarValores();
         try {
             const imagem = await tirarFoto();
-            if(!imagem) return;
-                Promise.all([
-                    obterCorImagem(imagem),
-                    obterDescricaoImagem(imagem)
-                ]).then((values) => {
-                    const corImagem = values[0];
-                    const descricaoImagem = values[1];
-                    if (corImagem) {
-                        setCorObtida(corImagem);
-                    }
-                    if (descricaoImagem) {
+            if (!imagem) return;
+            Promise.all([
+                obterCorImagem(imagem),
+                obterDescricaoImagem(imagem)
+            ]).then((values) => {
+                const corImagem = values[0];
+                const descricaoImagem = values[1];
+                if (corImagem) {
+                    setCorObtida(corImagem);
+                }
+                if (descricaoImagem) {
                     setDescricaoImagem(descricaoImagem);
                 }
             });
-            } catch (error) {
-                console.log(error);
-                speak(t('erro obter dados'));
-            }
+        } catch (error) {
+            console.log(error);
+            speak(t('erro obter dados'));
+        }
     }
 
     function resetarValores() {
@@ -72,7 +72,7 @@ export function Camera() {
     async function buscarNomeDaCor() {
         if (!corObtida) return;
         //const nomeDaCor = await obterNomeDaCor(corObtida);
-            const nomeDaCor = await obterNomeCorSemelhante(corObtida);
+        const nomeDaCor = await obterNomeCorSemelhante(corObtida);
         if (nomeDaCor) {
             setNomeCor(nomeDaCor);
         }

@@ -22,15 +22,12 @@ async function encontrarCorMaisSemelhante(corAlvo: number[]): Promise<string> {
     return corMaisSemelhante;
 }
 
-
-
 function calcularDiferencaRGB(cor1: number[], cor2: number[]): number {
     const diferencaR = cor1[0] - cor2[0];
     const diferencaG = cor1[1] - cor2[1];
     const diferencaB = cor1[2] - cor2[2];
     return Math.sqrt(diferencaR * 2 + diferencaG * 2 + diferencaB ** 2);
 }
-
 
 async function hexToRgb(hex: string) {
     // Remove o "#" se estiver presente

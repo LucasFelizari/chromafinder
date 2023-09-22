@@ -14,47 +14,47 @@ export function Idioma() {
         i18n.changeLanguage(language);
     }
 
-     return (
-            <VStack flex={1}  bg="#1E1E1E" alignItems='start' paddingTop={12}>
-                <IconButton
-                    icon={<Feather name="arrow-left" color="#b9b9b9" size={50} />}
-                    onPress={() => navigation.goBack()}
-                />
-        <Text
-            style={{ color: 'white', fontWeight: 'bold', fontSize: 18, marginLeft: 20 }}
-            mt={6}
-        >
-            {t('idioma')}
-        </Text>
-        <VStack  my={6} space={2} w='full'>
-            <Button
-                bg="#3f3f3f"
-                h={14}
-                onPress={() => mudarIdioma('en')}
-                justifyContent={'flex-start'}
-                paddingLeft={10}
+    return (
+        <VStack flex={1} bg="#1E1E1E" alignItems='start' paddingTop={12}>
+            <IconButton
+                icon={<Feather name="arrow-left" color="#b9b9b9" size={50} />}
+                onPress={() => navigation.goBack()}
+            />
+            <Text
+                style={{ color: 'white', fontWeight: 'bold', fontSize: 18, marginLeft: 20 }}
+                mt={6}
             >
-                <Text
-                    style={{ color: 'white', fontWeight: 'bold' }}
+                {t('idioma')}
+            </Text>
+            <VStack my={6} space={2} w='full'>
+                <Button
+                    bg="#3f3f3f"
+                    h={14}
+                    onPress={() => mudarIdioma('en')}
+                    justifyContent={'flex-start'}
+                    paddingLeft={10}
                 >
-                    English
-                </Text>
-            </Button>
-            <Button
-                bg="#3f3f3f"
-                h={14}
-                onPress={() => mudarIdioma('pt')}
-                justifyContent={'flex-start'}
-                paddingLeft={10}
-            >
-                <Text
-                    style={{ color: 'white', fontWeight: 'bold' }}
+                    <Text
+                        style={{ color: 'white', fontWeight: 'bold' }}
+                    >
+                        English
+                    </Text>
+                </Button>
+                <Button
+                    bg="#3f3f3f"
+                    h={14}
+                    onPress={() => mudarIdioma('pt')}
+                    justifyContent={'flex-start'}
+                    paddingLeft={10}
                 >
-                    Português
-                </Text>
-            </Button>
+                    <Text
+                        style={{ color: 'white', fontWeight: 'bold' }}
+                    >
+                        Português
+                    </Text>
+                </Button>
             </VStack>
-            </VStack>
+        </VStack>
 
     );
 }
