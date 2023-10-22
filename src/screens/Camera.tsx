@@ -6,14 +6,14 @@ import { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 
 import converterArquivo from "../services/converterAquivo";
-import obterNomeDaCor from "../services/obterNomeDaCor";
 
 import obterCorImagem from "../services/obterCorImagem";
 import obterDescricaoImagem from "../services/obterDescricaoImagem";
 import '../utils/i18n';
 import { useTranslation } from 'react-i18next';
 import speak from "../hooks/speak";
-import obterNomeCorSemelhante from "../services/obterNomeCorSemelhante";
+import { IMapeamentoCores } from "../utils/mapeamentoCores";
+import obterMapeamentoCor from "../services/obterNomeCorSemelhante";
 
 export function Camera() {
     const navigation = useNavigation<AppRoutesProps>();
@@ -21,8 +21,8 @@ export function Camera() {
     const [type, setType] = useState(CameraType.back);
     const [hasPermission, setHasPermission] = useState<boolean>();
     const [corObtida, setCorObtida] = useState<string>('');
-    const [nomeCor, setNomeCor] = useState<string>('');
     const [descricaoImagem, setDescricaoImagem] = useState<string>('');
+    const [corMapeada, setCorMapeada] = useState<IMapeamentoCores>({} as IMapeamentoCores);
 
     let camera: ExpoCamera | null;
     const { t, i18n } = useTranslation();
@@ -54,14 +54,14 @@ export function Camera() {
 
     function resetarValores() {
         setCorObtida('');
-        setNomeCor('');
+        setCorMapeada({} as IMapeamentoCores);
     }
 
     async function tirarFoto() {
         if (camera) {
             const { base64 } = await camera.takePictureAsync({
                 base64: true,
-                quality: 1,
+                quality: 0.2,
             });
             const imagemConvertida = base64 && await converterArquivo(base64);
             return imagemConvertida;
@@ -71,19 +71,18 @@ export function Camera() {
 
     async function buscarNomeDaCor() {
         if (!corObtida) return;
-        //const nomeDaCor = await obterNomeDaCor(corObtida);
-        const nomeDaCor = await obterNomeCorSemelhante(corObtida);
-        if (nomeDaCor) {
-            setNomeCor(nomeDaCor);
+        const cor = await obterMapeamentoCor(corObtida);
+        if (cor) {
+            setCorMapeada(cor);
         }
         setIsLoading(false);
     }
 
     useEffect(() => {
-        if (!!nomeCor && !!descricaoImagem) {
-            speak(descricaoImagem + ", a cor predominante é " + nomeCor);
+        if (!!corMapeada && !!descricaoImagem) {
+            speak(descricaoImagem + ", a cor predominante é " + corMapeada[i18n.language]);
         }
-    }, [nomeCor, descricaoImagem]);
+    }, [corMapeada, descricaoImagem]);
 
     useEffect(() => {
         buscarNomeDaCor();
@@ -141,7 +140,7 @@ export function Camera() {
                         </Center>
                     )}
                     <VStack>
-                        {nomeCor && corObtida &&
+                        {corMapeada && corObtida &&
                             <Center>
                                 <Box
                                     minW={40}
@@ -151,7 +150,7 @@ export function Camera() {
                                     p={4}
                                 >
                                     <Heading color='white' size='md' textAlign='center'>
-                                        {nomeCor ? nomeCor : 'Cor não encontrada'}
+                                        {corMapeada ? corMapeada[i18n.language] : 'Cor não encontrada'}
                                     </Heading>
                                 </Box>
                             </Center>

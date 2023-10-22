@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export default async function obterCorImagem(imagem: Buffer): Promise<string> {
     if (!!imagem) {
-        const subscriptionKey = 'ce5b7ed8cd98493abd254149952bdd80';
+        const subscriptionKey = '3c06587bfb4b4c4e9f49b4658c078a36';
         const uriBase = 'https://brazilsouth.api.cognitive.microsoft.com/vision/v3.2/analyze';
         const params = {
             visualFeatures: 'Color',
@@ -28,6 +28,7 @@ export default async function obterCorImagem(imagem: Buffer): Promise<string> {
             return accentColor;
 
         } catch (error: any) {
+            console.log(error.response.data);
             throw new Error("Não foi possivel capturar a cor da imagem");
         }
     }

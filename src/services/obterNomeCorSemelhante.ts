@@ -1,21 +1,21 @@
 
-import { mapeamentoCoresPortugues } from '../utils/mapeamentoCores';
+import { IMapeamentoCores, mapeamentoCores } from '../utils/mapeamentoCores';
 
-
-export default async function obterNomeCorSemelhante(hex: string): Promise<string> {
+export default async function obterMapeamentoCor(hex: string): Promise<IMapeamentoCores> {
     const corAlvo = await hexToRgb(hex);
     return await encontrarCorMaisSemelhante(Object.values(corAlvo));
 }
 
-async function encontrarCorMaisSemelhante(corAlvo: number[]): Promise<string> {
-    let corMaisSemelhante = "";
+async function encontrarCorMaisSemelhante(corAlvo: number[]): Promise<IMapeamentoCores> {
+    let corMaisSemelhante: IMapeamentoCores = {} as IMapeamentoCores;
+        
     let menorDiferenca = Number.MAX_VALUE;
 
-    for (const cor of mapeamentoCoresPortugues) {
+    for (const cor of mapeamentoCores) {
         const diferenca = calcularDiferencaRGB(corAlvo, cor.rgb);
         if (diferenca < menorDiferenca) {
             menorDiferenca = diferenca;
-            corMaisSemelhante = cor.nome;
+            corMaisSemelhante = cor;
         }
     }
 

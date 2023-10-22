@@ -5,7 +5,7 @@ import axios from "axios";
 
 export default async function obterDescricaoImagem(imagem: Buffer): Promise<string> {
     if (!!imagem) {
-        const subscriptionKey = 'ce5b7ed8cd98493abd254149952bdd80';
+        const subscriptionKey = '3c06587bfb4b4c4e9f49b4658c078a36';
         const uriBase = 'https://brazilsouth.api.cognitive.microsoft.com/vision/v3.2/describe';
         const params = {
             maxCandidates: 1,
@@ -31,7 +31,7 @@ export default async function obterDescricaoImagem(imagem: Buffer): Promise<stri
             return captions[0].text;
         }
         catch (error: any) {
-            console.log(error);
+            console.log(error.response);
             throw new Error("Não foi possivel capturar a descrição da imagem");
         }
     }

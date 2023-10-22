@@ -1,109 +1,346 @@
 
-export const mapeamentoCoresPortugues = [
-    { nome: "Vermelho", rgb: [255, 0, 0] },
-    { nome: "Verde", rgb: [0, 255, 0] },
-    { nome: "Azul", rgb: [0, 0, 255] },
-    { nome: "Amarelo", rgb: [255, 255, 0] },
-    { nome: "Rosa", rgb: [255, 0, 255] },
-    { nome: "Ciano", rgb: [0, 255, 255] },
-    { nome: "Laranja", rgb: [255, 165, 0] },
-    { nome: "Roxo", rgb: [128, 0, 128] },
-    { nome: "Marrom", rgb: [139, 69, 19] },
-    { nome: "Preto", rgb: [0, 0, 0] },
-    { nome: "Branco", rgb: [255, 255, 255] },
-    { nome: "Cinza", rgb: [128, 128, 128] },
-    { nome: "Prata", rgb: [192, 192, 192] },
-    { nome: "Ouro", rgb: [255, 215, 0] },
-    { nome: "Turquesa", rgb: [64, 224, 208] },
-    { nome: "Violeta", rgb: [238, 130, 238] },
-    { nome: "Indigo", rgb: [75, 0, 130] },
-    { nome: "Verde Limão", rgb: [50, 205, 50] },
-    { nome: "Oliva", rgb: [128, 128, 0] },
-    { nome: "Salmão", rgb: [250, 128, 114] },
-    { nome: "Verde Mar", rgb: [46, 139, 87] },
-    { nome: "Chocolate", rgb: [210, 105, 30] },
-    { nome: "Teal", rgb: [0, 128, 128] },
-    { nome: "Coral", rgb: [255, 127, 80] },
-    { nome: "Moçã", rgb: [255, 228, 196] },
-    { nome: "Tomate", rgb: [255, 99, 71] },
-    { nome: "Prata Antiga", rgb: [192, 192, 192] },
-    { nome: "Turquesa Média", rgb: [72, 209, 204] },
-    { nome: "Salmão Claro", rgb: [255, 160, 122] },
-    { nome: "Púrpura Médio", rgb: [147, 112, 219] },
-    { nome: "Marrom Médio", rgb: [165, 42, 42] },
-    { nome: "Lima", rgb: [0, 255, 0] },
-    { nome: "Rosa Quente", rgb: [255, 105, 180] },
-    { nome: "Aqua", rgb: [0, 255, 255] },
-    { nome: "Magenta", rgb: [255, 0, 255] },
-    { nome: "Cinza Claro", rgb: [211, 211, 211] },
-    { nome: "Salmão Claro", rgb: [255, 160, 122] },
-    { nome: "Salmão Escuro", rgb: [233, 150, 122] },
-    { nome: "Salmão Médio", rgb: [222, 184, 135] },
-    { nome: "Salmão Escuro", rgb: [233, 150, 122] },
-    { nome: "Verde Oliva Escuro", rgb: [85, 107, 47] },
-    { nome: "Marrom Saddle", rgb: [139, 69, 19] },
-    { nome: "Verde Oliva", rgb: [128, 128, 0] },
-    { nome: "Amarelo Ouro Claro", rgb: [250, 250, 210] },
-    { nome: "Amarelo Ouro Escuro", rgb: [238, 232, 170] },
-    { nome: "Amarelo Ouro Médio", rgb: [184, 134, 11] },
-    { nome: "Verde Mar Profundo", rgb: [0, 128, 128] },
-    { nome: "Azul Dodger", rgb: [30, 144, 255] },
-    { nome: "Rosa Choque", rgb: [255, 0, 127] },
-    { nome: "Azul Pó", rgb: [176, 224, 230] },
+export type IMapeamentoCores = {
+    id: Number;
+    pt: string;
+    en: string;
+    rgb: [number, number, number];
+    [key: string]: any;
+}
+
+export const mapeamentoCores: IMapeamentoCores[] = [
+    {
+        id: 1,
+        pt: "Vermelho",
+        en: "Red",
+        rgb: [255, 0, 0]
+    },
+    {
+        id: 2,
+        pt: "Verde",
+        en: "Green",
+        rgb: [0, 255, 0]
+    },
+    {
+        id: 3,
+        pt: "Azul",
+        en: "Blue",
+        rgb: [0, 0, 255]
+    },
+    {
+        id: 4,
+        pt: "Amarelo",
+        en: "Yellow",
+        rgb: [255, 255, 0]
+    },
+    {
+        id: 5,
+        pt: "Rosa",
+        en: "Pink",
+        rgb: [255, 0, 255]
+    },
+    {
+        id: 6,
+        pt: "Ciano",
+        en: "Cyan",
+        rgb: [0, 255, 255]
+    },
+    {
+        id: 7,
+        pt: "Laranja",
+        en: "Orange",
+        rgb: [255, 165, 0]
+    },
+    {
+        id: 8,
+        pt: "Roxo",
+        en: "Purple",
+        rgb: [128, 0, 128]
+    },
+    {
+        id: 9,
+        pt: "Marrom",
+        en: "Brown",
+        rgb: [139, 69, 19]
+    },
+    {
+        id: 10,
+        pt: "Preto",
+        en: "Black",
+        rgb: [0, 0, 0]
+    },
+    {
+        id: 11,
+        pt: "Branco",
+        en: "White",
+        rgb: [255, 255, 255]
+    },
+    {
+        id: 12,
+        pt: "Cinza",
+        en: "Gray",
+        rgb: [128, 128, 128]
+    },
+    {
+        id: 13,
+        pt: "Prata",
+        en: "Silver",
+        rgb: [192, 192, 192]
+    },
+    {
+        id: 14,
+        pt: "Ouro",
+        en: "Gold",
+        rgb: [255, 215, 0]
+    },
+    {
+        id: 15,
+        pt: "Turquesa",
+        en: "Turquoise",
+        rgb: [64, 224, 208]
+    },
+    {
+        id: 16,
+        pt: "Violeta",
+        en: "Violet",
+        rgb: [238, 130, 238]
+    },
+    {
+        id: 17,
+        pt: "Indigo",
+        en: "Indigo",
+        rgb: [75, 0, 130]
+    },
+    {
+        id: 18,
+        pt: "Verde Limão",
+        en: "Lime Green",
+        rgb: [50, 205, 50]
+    },
+    {
+        id: 19,
+        pt: "Oliva",
+        en: "Olive",
+        rgb: [128, 128, 0]
+    },
+    {
+        id: 20,
+        pt: "Salmão",
+        en: "Salmon",
+        rgb: [250, 128, 114]
+    },
+    {
+        id: 21,
+        pt: "Verde Mar",
+        en: "Sea Green",
+        rgb: [46, 139, 87]
+    },
+    {
+        id: 22,
+        pt: "Chocolate",
+        en: "Chocolate",
+        rgb: [210, 105, 30]
+    },
+    {
+        id: 23,
+        pt: "Teal",
+        en: "Teal",
+        rgb: [0, 128, 128]
+    },
+    {
+        id: 24,
+        pt: "Azul Marinho",
+        en: "Navy Blue",
+        rgb: [0, 0, 128]
+    },
+    {
+        id: 25,
+        pt: "Bordô",
+        en: "Maroon",
+        rgb: [128, 0, 0]
+    },
+    {
+        id: 26,
+        pt: "Bege",
+        en: "Beige",
+        rgb: [245, 245, 220]
+    },
+    {
+        id: 27,
+        pt: "Coral",
+        en: "Coral",
+        rgb: [255, 127, 80]
+    },
+    {
+        id: 28,
+        pt: "Creme",
+        en: "Cream",
+        rgb: [255, 253, 208]
+    },
+    {
+        id: 29,
+        pt: "Cinza Claro",
+        en: "Light Gray",
+        rgb: [211, 211, 211]
+    },
+    {
+        id: 30,
+        pt: "Cinza Escuro",
+        en: "Dark Gray",
+        rgb: [169, 169, 169]
+    },
+    {
+        id: 31,
+        pt: "Verde Oliva",
+        en: "Olive Green",
+        rgb: [107, 142, 35]
+    },
+    {
+        id: 32,
+        pt: "Verde Musgo",
+        en: "Moss Green",
+        rgb: [173, 223, 173]
+    },
+    {
+        id: 33,
+        pt: "Verde Água",
+        en: "Aquamarine",
+        rgb: [127, 255, 212]
+    },
+    {
+        id: 34,
+        pt: "Verde Escuro",
+        en: "Dark Green",
+        rgb: [0, 100, 0]
+    },
+    {
+        id: 35,
+        pt: "Verde Claro",
+        en: "Light Green",
+        rgb: [144, 238, 144]
+    },
+    {
+        id: 36,
+        pt: "Verde Amarelado",
+        en: "Chartreuse",
+        rgb: [127, 255, 0]
+    },
+    {
+        id: 37,
+        pt: "Verde Azulado",
+        en: "Aquamarine",
+        rgb: [0, 255, 255]
+    },
+    {
+        id: 38,
+        pt: "Verde Azulado Escuro",
+        en: "Dark Turquoise",
+        rgb: [0, 206, 209]
+    },
+    {
+        id: 39,
+        pt: "Verde Azulado Claro",
+        en: "Light Turquoise",
+        rgb: [175, 238, 238]
+    },
+    {
+        id: 40,
+        pt: "Verde Azulado Médio",
+        en: "Medium Turquoise",
+        rgb: [72, 209, 204]
+    },
+    {
+        id: 41,
+        pt: "Verde Azulado Pálido",
+        en: "Pale Turquoise",
+        rgb: [175, 238, 238]
+    },
+    {
+        id: 42,
+        pt: "Verde Azulado Escuro",
+        en: "Dark Slate Turquoise",
+        rgb: [0, 128, 128]
+    },
+    {
+        id: 43,
+        pt: "Verde Azulado Médio",
+        en: "Medium Slate Turquoise",
+        rgb: [72, 209, 204]
+    },
+    {
+        id: 44,
+        pt: "Verde Azulado Pálido",
+        en: "Pale Turquoise",
+        rgb: [175, 238, 238]
+    },
+    {
+        id: 45,
+        pt: "Verde Azulado Escuro",
+        en: "Dark Slate Turquoise",
+        rgb: [0, 128, 128]
+    },
+    {
+        id: 46,
+        pt: "Verde Azulado Médio",
+        en: "Medium Slate Turquoise",
+        rgb: [72, 209, 204]
+    },
+    {
+        id: 47,
+        pt: "Verde Azulado Pálido",
+        en: "Pale Turquoise",
+        rgb: [175, 238, 238]
+    },
+    {
+        id: 48,
+        pt: "Verde Azulado Escuro",
+        en: "Dark Slate Turquoise",
+        rgb: [0, 128, 128]
+    },
+    {
+        id: 49,
+        pt: "Verde Azulado Médio",
+        en: "Medium Slate Turquoise",
+        rgb: [72, 209, 204]
+    },
+    {
+        id: 50,
+        pt: "Verde Azulado Pálido",
+        en: "Pale Turquoise",
+        rgb: [175, 238, 238]
+    },
+    {
+        id: 51,
+        pt: "Verde Azulado Escuro",
+        en: "Dark Slate Turquoise",
+        rgb: [0, 128, 128]
+    },
+    {
+        id: 52,
+        pt: "Verde Azulado Médio",
+        en: "Medium Slate Turquoise",
+        rgb: [72, 209, 204]
+    },
+    {
+        id: 53,
+        pt: "Verde Azulado Pálido",
+        en: "Pale Turquoise",
+        rgb: [175, 238, 238]
+    },
+    {
+        id: 54,
+        pt: "Verde Azulado Escuro",
+        en: "Dark Slate Turquoise",
+        rgb: [0, 128, 128]
+    },
+    {
+        id: 55,
+        pt: "Verde Azulado Médio",
+        en: "Medium Slate Turquoise",
+        rgb: [72, 209, 204]
+    },
 ];
 
-export const mapeamentoCoresIngles = [
-    { nome: "Red", rgb: [255, 0, 0] },
-    { nome: "Green", rgb: [0, 255, 0] },
-    { nome: "Blue", rgb: [0, 0, 255] },
-    { nome: "Yellow", rgb: [255, 255, 0] },
-    { nome: "Pink", rgb: [255, 0, 255] },
-    { nome: "Cyan", rgb: [0, 255, 255] },
-    { nome: "Orange", rgb: [255, 165, 0] },
-    { nome: "Purple", rgb: [128, 0, 128] },
-    { nome: "Brown", rgb: [139, 69, 19] },
-    { nome: "Black", rgb: [0, 0, 0] },
-    { nome: "White", rgb: [255, 255, 255] },
-    { nome: "Gray", rgb: [128, 128, 128] },
-    { nome: "Silver", rgb: [192, 192, 192] },
-    { nome: "Gold", rgb: [255, 215, 0] },
-    { nome: "Turquoise", rgb: [64, 224, 208] },
-    { nome: "Violet", rgb: [238, 130, 238] },
-    { nome: "Indigo", rgb: [75, 0, 130] },
-    { nome: "Lime", rgb: [50, 205, 50] },
-    { nome: "Olive", rgb: [128, 128, 0] },
-    { nome: "Salmon", rgb: [250, 128, 114] },
-    { nome: "Sea Green", rgb: [46, 139, 87] },
-    { nome: "Chocolate", rgb: [210, 105, 30] },
-    { nome: "Teal", rgb: [0, 128, 128] },
-    { nome: "Coral", rgb: [255, 127, 80] },
-    { nome: "Beige", rgb: [255, 228, 196] },
-    { nome: "Tomato", rgb: [255, 99, 71] },
-    { nome: "Antique Silver", rgb: [192, 192, 192] },
-    { nome: "Medium Turquoise", rgb: [72, 209, 204] },
-    { nome: "Light Salmon", rgb: [255, 160, 122] },
-    { nome: "Medium Purple", rgb: [147, 112, 219] },
-    { nome: "Medium Brown", rgb: [165, 42, 42] },
-    { nome: "Lime", rgb: [0, 255, 0] },
-    { nome: "Hot Pink", rgb: [255, 105, 180] },
-    { nome: "Aqua", rgb: [0, 255, 255] },
-    { nome: "Magenta", rgb: [255, 0, 255] },
-    { nome: "Light Gray", rgb: [211, 211, 211] },
-    { nome: "Light Salmon", rgb: [255, 160, 122] },
-    { nome: "Dark Salmon", rgb: [233, 150, 122] },
-    { nome: "Medium Salmon", rgb: [222, 184, 135] },
-    { nome: "Dark Salmon", rgb: [233, 150, 122] },
-    { nome: "Dark Olive Green", rgb: [85, 107, 47] },
-    { nome: "Saddle Brown", rgb: [139, 69, 19] },
-    { nome: "Olive", rgb: [128, 128, 0] },
-    { nome: "Light Goldenrod Yellow", rgb: [250, 250, 210] },
-    { nome: "Dark Khaki", rgb: [238, 232, 170] },
-    { nome: "Goldenrod", rgb: [184, 134, 11] },
-    { nome: "Deep Sea Green", rgb: [0, 128, 128] },
-    { nome: "Dodger Blue", rgb: [30, 144, 255] },
-    { nome: "Shock Pink", rgb: [255, 0, 127] },
-    { nome: "Powder Blue", rgb: [176, 224, 230] },
-]
+// Cores
 
 // Vermelho: RGB(255, 0, 0)
 // Verde: RGB(0, 255, 0)
