@@ -39,13 +39,13 @@ export function Inicio() {
                     </Text>
 
                 </Button>
-                <Button
+                {/* <Button
                     bg="#00b14a"
                     borderRadius={8}
                     onPress={() => navigation.navigate('Historico')}
                 >
                     {t('historico')}
-                </Button>
+                </Button> */}
             </VStack>
             <VStack width="full" my={12}>
                 <Button
