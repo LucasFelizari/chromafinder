@@ -32,23 +32,27 @@ export function Camera() {
         resetarValores();
         try {
             const imagem = await tirarFoto();
-            if (!imagem) return;
+            imagem && await obterDadosDaImagem(imagem);
+        } catch (error) {
+            console.log(error);
+            speak(t('erro obter os dados'));
+        }
+    }
+
+    async function obterDadosDaImagem(imagem: Buffer) {
+        try {
             Promise.all([
                 obterCorImagem(imagem),
                 obterDescricaoImagem(imagem)
             ]).then((values) => {
-                const corImagem = values[0];
+                const corImagemHex = values[0];
                 const descricaoImagem = values[1];
-                if (corImagem) {
-                    setCorObtida(corImagem);
-                }
-                if (descricaoImagem) {
+                    setCorObtida(corImagemHex);
                     setDescricaoImagem(descricaoImagem);
-                }
+                    buscarNomeDaCor(corImagemHex);
             });
         } catch (error) {
-            console.log(error);
-            speak(t('erro obter dados'));
+            throw new Error('Erro ao obter dados da imagem');
         }
     }
 
@@ -61,7 +65,7 @@ export function Camera() {
         if (camera) {
             const { base64 } = await camera.takePictureAsync({
                 base64: true,
-                quality: 0.2,
+                quality: 0.5,
             });
             const imagemConvertida = base64 && await converterArquivo(base64);
             return imagemConvertida;
@@ -69,13 +73,16 @@ export function Camera() {
         throw new Error('Camera não encontrada');
     }
 
-    async function buscarNomeDaCor() {
-        if (!corObtida) return;
-        const cor = await obterMapeamentoCor(corObtida);
+    async function buscarNomeDaCor(corHex: string) {
+        const cor = await obterMapeamentoCor(corHex);
         if (cor) {
             setCorMapeada(cor);
         }
         setIsLoading(false);
+    }
+
+    function obterRgbDeArray(array: number[]) {
+        return `rgb(${array[0]}, ${array[1]}, ${array[2]})`;
     }
 
     useEffect(() => {
@@ -83,10 +90,6 @@ export function Camera() {
             speak(descricaoImagem + ", a cor predominante é " + corMapeada[i18n.language]);
         }
     }, [corMapeada, descricaoImagem]);
-
-    useEffect(() => {
-        buscarNomeDaCor();
-    }, [corObtida]);
 
     useEffect(() => {
         (async () => {
