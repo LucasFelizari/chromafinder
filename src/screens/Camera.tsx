@@ -79,17 +79,8 @@ export function Camera() {
             setCorMapeada(cor);
         }
         setIsLoading(false);
+        speak(descricaoImagem + ", a cor predominante é " + cor[i18n.language]);
     }
-
-    function obterRgbDeArray(array: number[]) {
-        return `rgb(${array[0]}, ${array[1]}, ${array[2]})`;
-    }
-
-    useEffect(() => {
-        if (!!corMapeada && !!descricaoImagem) {
-            speak(descricaoImagem + ", a cor predominante é " + corMapeada[i18n.language]);
-        }
-    }, [corMapeada, descricaoImagem]);
 
     useEffect(() => {
         (async () => {

@@ -1,8 +1,5 @@
 import axios from "axios";
 
-
-
-
 export default async function obterDescricaoImagem(imagem: Buffer): Promise<string> {
     if (!!imagem) {
         const subscriptionKey = '3c06587bfb4b4c4e9f49b4658c078a36';
@@ -26,7 +23,6 @@ export default async function obterDescricaoImagem(imagem: Buffer): Promise<stri
                 transformResponse: [(data) => JSON.parse(data)],
             }
             );
-            //  console.log(response.data);
             const { captions } = response.data.description;
             return captions[0].text;
         }

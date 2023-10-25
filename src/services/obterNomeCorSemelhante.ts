@@ -1,32 +1,37 @@
-
 import { IMapeamentoCores, mapeamentoCores } from '../utils/mapeamentoCores';
 
-export default async function obterMapeamentoCor(hex: string): Promise<IMapeamentoCores> {
-    const corAlvo = await hexToRgb(hex);
-    return await encontrarCorMaisSemelhante(Object.values(corAlvo));
+export type IRgb = {
+    r: number;
+    g: number;
+    b: number;
 }
 
-async function encontrarCorMaisSemelhante(corAlvo: number[]): Promise<IMapeamentoCores> {
+export default async function obterMapeamentoCor(hex: string): Promise<IMapeamentoCores> {
+    const corAlvo: IRgb = await hexToRgb(hex);
+       return await encontrarCorMaisSemelhante(corAlvo);
+}
+
+async function encontrarCorMaisSemelhante(corAlvo: IRgb): Promise<IMapeamentoCores> {
     let corMaisSemelhante: IMapeamentoCores = {} as IMapeamentoCores;
-        
+
     let menorDiferenca = Number.MAX_VALUE;
 
     for (const cor of mapeamentoCores) {
-        const diferenca = calcularDiferencaRGB(corAlvo, cor.rgb);
+        const diferenca = calcularDiferencaRGB(corAlvo, cor);
         if (diferenca < menorDiferenca) {
             menorDiferenca = diferenca;
             corMaisSemelhante = cor;
         }
     }
-
     return corMaisSemelhante;
 }
 
-function calcularDiferencaRGB(cor1: number[], cor2: number[]): number {
-    const diferencaR = cor1[0] - cor2[0];
-    const diferencaG = cor1[1] - cor2[1];
-    const diferencaB = cor1[2] - cor2[2];
-    return Math.sqrt(diferencaR * 2 + diferencaG * 2 + diferencaB ** 2);
+function calcularDiferencaRGB(cor1: IRgb, cor2: IRgb): number {
+    const diferencaR = cor1.r - cor2.r;
+    const diferencaG = cor1.g - cor2.g;
+    const diferencaB = cor1.b - cor2.b;
+
+ return Math.sqrt(diferencaR ** 2 + diferencaG ** 2 + diferencaB ** 2);
 }
 
 async function hexToRgb(hex: string) {
@@ -41,4 +46,3 @@ async function hexToRgb(hex: string) {
     // Retorna o valor RGB como um objeto
     return { r, g, b };
 }
-
