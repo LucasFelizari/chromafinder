@@ -65,7 +65,7 @@ export function Camera() {
         if (camera) {
             const { base64 } = await camera.takePictureAsync({
                 base64: true,
-                quality: 0.5,
+                quality: 0.8,
             });
             const imagemConvertida = base64 && await converterArquivo(base64);
             return imagemConvertida;
