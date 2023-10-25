@@ -298,7 +298,7 @@ export const mapeamentoCores: IMapeamentoCores[] = [
         b: 235
     },
     {
-        id: 32,
+        id: 33,
         pt: "Azul Aço",
         en: "Light Steel Blue",
         rgb: [176,196,222],
@@ -307,7 +307,7 @@ export const mapeamentoCores: IMapeamentoCores[] = [
         b: 222
     },
     {
-        id: 33,
+        id: 34,
         pt: "Verde Lima",
         en: "Lime Green",
         rgb: [50,205,50],
@@ -316,7 +316,7 @@ export const mapeamentoCores: IMapeamentoCores[] = [
         b: 50
     },
     {
-        id: 34,
+        id: 35,
         pt: "Verde Oliva",
         en: "Olive Green",
         rgb: [107,142,35],
@@ -325,7 +325,7 @@ export const mapeamentoCores: IMapeamentoCores[] = [
         b: 35
     },
     {
-        id: 35,
+        id: 36,
         pt: "Verde Mar",
         en: "Sea Green",
         rgb: [46,139,87],
