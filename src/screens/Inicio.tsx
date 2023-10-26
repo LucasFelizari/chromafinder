@@ -36,16 +36,17 @@ export function Inicio() {
                     bg="#00857a"
                     borderRadius={8}
                     onPress={() => navigation.navigate('Idioma')}
+                    py={4}
                 >
                     <Text
-                        style={{ color: 'white', fontWeight: 'bold' }}
+                        style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}
                         fontFamily="body"
                     >
-                        {t('idioma')}
+                        {t('configuracoes')}
                     </Text>
                 </Button>
             </VStack>
-            <VStack width="full" my={12}>
+            <VStack width="full" mb={12} mt={10}>
                 <Button
                     borderRadius={20}
                     bg="#00857a"

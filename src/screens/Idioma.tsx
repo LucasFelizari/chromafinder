@@ -18,17 +18,17 @@ export function Idioma() {
                 onPress={() => navigation.goBack()}
             />
             <Text
-                style={{ color: 'white', fontWeight: 'bold', fontSize: 18, marginLeft: 20 }}
+                style={{ color: 'white', fontWeight: 'bold', fontSize: 15, marginLeft: 20 }}
                 mt={6}
             >
                 {t('idioma')}
             </Text>
-            <Divider bg={'#494949'} my={5} />
-            <VStack my={6} space={4} w='90%' mx='auto'>
+            {/* <Divider bg={'#494949'} my={5} /> */}
+            <VStack mt={4} mb={6} space={4} w='90%' mx='auto'>
                 <BotaoSelecaoIdioma idiomaBotao="en" nome='English' />
                 <BotaoSelecaoIdioma idiomaBotao="pt" nome='Português' />
             </VStack>
-            <Divider bg={'#494949'} my={5} />
+            <Divider bg={'#494949'} mt={2} mb={5} />
             <HStack w='90%' mx='auto' justifyContent='start' alignItems={'center'}>
             <Switch 
             size="lg" 
