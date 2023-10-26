@@ -3,6 +3,8 @@
         "idioma": "LANGUAGE",
         "historico": "HISTORY",
         "sem acesso camera": "No access to camera",
-        "erro obter dados": "Error getting data"
+        "erro obter dados": "Error getting data",
+        "cor predominante": "the main color is",
+        "descricao img": "Image description"
     }
 }

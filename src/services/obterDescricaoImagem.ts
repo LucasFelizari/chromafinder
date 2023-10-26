@@ -1,12 +1,13 @@
 import axios from "axios";
+import { IIdioma } from "../contexts/ChromaFinderContext";
 
-export default async function obterDescricaoImagem(imagem: Buffer): Promise<string> {
+export default async function obterDescricaoImagem(imagem: Buffer, idioma: IIdioma): Promise<string> {
     if (!!imagem) {
         const subscriptionKey = '3c06587bfb4b4c4e9f49b4658c078a36';
         const uriBase = 'https://brazilsouth.api.cognitive.microsoft.com/vision/v3.2/describe';
         const params = {
             maxCandidates: 1,
-            language: 'pt',
+            language: idioma,
             'model-version': 'latest'
         };
 

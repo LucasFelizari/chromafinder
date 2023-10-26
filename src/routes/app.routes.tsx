@@ -1,6 +1,5 @@
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Camera } from '../screens/Camera';
-import { Historico } from '../screens/Historico';
 import { Idioma } from '../screens/Idioma';
 import { Inicio } from '../screens/Inicio'
 
@@ -25,10 +24,6 @@ export function AppRoutes() {
             <Screen
                 name="Camera"
                 component={Camera}
-            />
-            <Screen
-                name="Historico"
-                component={Historico}
             />
             <Screen
                 name="Idioma"

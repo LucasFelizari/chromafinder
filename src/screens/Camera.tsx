@@ -92,8 +92,8 @@ export function Camera() {
                             </Center>
                         }
                         <Center mb={16} mt={10} >
-                            <Button
-                                colorScheme='green'
+                            <Button    
+                                bg='#00857a'
                                 rounded='full'
                                 size='lg'
                                 onPress={handleTakePicture}

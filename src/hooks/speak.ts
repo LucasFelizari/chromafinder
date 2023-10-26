@@ -1,6 +1,6 @@
 import * as Speech from 'expo-speech';
 
-export default function speak(texto: string) {
+export default function speak(texto: string, language: string = 'pt-BR') {
 
-    Speech.speak(texto, { language: 'pt-BR' });
+    Speech.speak(texto, { language: language });
 }

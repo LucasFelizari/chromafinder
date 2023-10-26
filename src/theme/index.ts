@@ -5,6 +5,7 @@ export const THEME = extendTheme({
       green: {
         700: '#00875F',
         500: '#00B37E',
+        300: '#00857a'
       },
       gray: {
         700: '#121214',
@@ -21,8 +22,8 @@ export const THEME = extendTheme({
       }
     },
     fonts: {
-      // heading: 'Roboto_700Bold',
-      // body: 'Roboto_400Regular',
+      heading: 'Roboto_700Bold',
+      body: 'Roboto_400Regular',
     },
     fontSizes: {
       xs: 12,

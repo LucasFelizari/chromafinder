@@ -16,6 +16,8 @@ export type ChromaFinderContextProps = {
     camRef?: React.RefObject<ExpoCamera>;
     analisarImagem: () => Promise<void>;
     setIdioma: (idioma: IIdioma) => void;
+    buscarDescricaoImagem: boolean;
+    setBuscarDescricaoImagem: (buscarDescricaoImagem: boolean) => void;
 }
 
 export type IIdioma = 'pt' | 'en';
@@ -26,12 +28,12 @@ type ChromaFinderProviderProps = {
 
 export const ChromaFinderContext = createContext<ChromaFinderContextProps>({} as ChromaFinderContextProps);
 
-export function ChromaFinderProvider( { children }: ChromaFinderProviderProps ) {
+export function ChromaFinderProvider({ children }: ChromaFinderProviderProps) {
     const [corObtida, setCorObtida] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [corMapeada, setCorMapeada] = useState<IMapeamentoCores>({} as IMapeamentoCores);
-    const [buscarDescricaoImagem, setBuscarDescricaoImagem] = useState<boolean>(true);
-    const { i18n } = useTranslation();
+    const [buscarDescricaoImagem, setBuscarDescricaoImagem] = useState<boolean>(false);
+    const { t, i18n } = useTranslation();
     const [idioma, setIdioma] = useState<IIdioma>(i18n.language as IIdioma);
     const camRef = useRef<ExpoCamera>(null);
 
@@ -40,12 +42,19 @@ export function ChromaFinderProvider( { children }: ChromaFinderProviderProps ) 
             setIsLoading(true);
             resetarValores();
             const imagem = await tirarFoto();
-            if(!imagem) throw new Error('Erro ao tirar foto');
+            if (!imagem) throw new Error('Erro ao tirar foto');
 
-            const [corImagemHex, descricaoImagem] = await Promise.all([
-                obterCorImagem(imagem),
-                obterDescricaoImagem(imagem)
-            ]);
+            let corImagemHex = '';
+            let descricaoImagem = '';
+    
+            if (buscarDescricaoImagem) {
+                [corImagemHex, descricaoImagem] = await Promise.all([
+                    obterCorImagem(imagem),
+                    obterDescricaoImagem(imagem, idioma)
+                ]);
+            } else {
+                corImagemHex = await obterCorImagem(imagem);
+            }
 
             setCorObtida(corImagemHex);
             buscarNomeDaCor(corImagemHex, descricaoImagem);
@@ -54,7 +63,7 @@ export function ChromaFinderProvider( { children }: ChromaFinderProviderProps ) 
         } finally {
             setIsLoading(false);
         }
-    }, [ idioma ]);
+    }, [idioma, i18n.language, buscarDescricaoImagem]);
 
     async function tirarFoto() {
         try {
@@ -63,11 +72,10 @@ export function ChromaFinderProvider( { children }: ChromaFinderProviderProps ) 
                     base64: true,
                     quality: 0.8,
                 });
-                if(!base64) throw new Error('Erro ao tirar foto');
+                if (!base64) throw new Error('Erro ao tirar foto');
                 const imagemConvertida = await converterArquivo(base64);
-                if(!imagemConvertida) throw new Error('Erro ao converter imagem');
+                if (!imagemConvertida) throw new Error('Erro ao converter imagem');
                 return imagemConvertida;
-
             }
         } catch (error) {
             throw new Error('Camera não encontrada');
@@ -75,12 +83,17 @@ export function ChromaFinderProvider( { children }: ChromaFinderProviderProps ) 
     }
 
     const falarInfoImagem = useCallback((cor: IMapeamentoCores, descricaoImagem: string) => {
-        if(buscarDescricaoImagem) {
-            speak(descricaoImagem + ", a cor predominante é " + cor[idioma]);
+        if (buscarDescricaoImagem) {
+            speak(
+                descricaoImagem + ", " + t('cor predominante') + " " + cor[idioma],
+                idioma === 'pt' ? 'pt-BR' : 'en'
+            );
         } else {
-            speak("A cor predominante é " + cor[idioma]);
+            speak(t('cor predominante') + " " + cor[idioma],
+                idioma === 'pt' ? 'pt-BR' : 'en'
+            );
         }
-    }, [buscarDescricaoImagem,  corMapeada, idioma]);
+    }, [buscarDescricaoImagem, corMapeada, idioma, i18n.language]);
 
 
     function resetarValores() {
@@ -97,7 +110,7 @@ export function ChromaFinderProvider( { children }: ChromaFinderProviderProps ) 
 
             falarInfoImagem(cor, descricaoImagem);
         },
-        [buscarDescricaoImagem],
+        [buscarDescricaoImagem, corMapeada, idioma, i18n.language],
     );
 
     return (
@@ -108,7 +121,9 @@ export function ChromaFinderProvider( { children }: ChromaFinderProviderProps ) 
             idioma,
             setIdioma,
             camRef,
-            analisarImagem
+            analisarImagem,
+            buscarDescricaoImagem,
+            setBuscarDescricaoImagem
         }}>
             {children}
         </ChromaFinderContext.Provider>
