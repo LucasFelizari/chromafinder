@@ -333,7 +333,4 @@ export const mapeamentoCores: IMapeamentoCores[] = [
         g: 139,
         b: 87
     },
-
-
 ];
-

@@ -3,10 +3,11 @@ import { Button, Center, HStack, Heading, IconButton, Text, VStack, Spacer, Divi
 import { AppRoutesProps } from "../routes/app.routes";
 import { useTranslation } from 'react-i18next';
 import { Feather } from "@expo/vector-icons";
+import { useChromaFinderContext } from "../hooks/useChromaFinderContext";
+import { IIdioma } from "../contexts/ChromaFinderContext";
 
 export function Idioma() {
     const navigation = useNavigation<AppRoutesProps>();
-
     const { t } = useTranslation();
 
     return (
@@ -21,31 +22,33 @@ export function Idioma() {
             >
                 {t('idioma')}
             </Text>
-            <Divider bg={'#494949'} my={5}/>
+            <Divider bg={'#494949'} my={5} />
             <VStack my={6} space={4} w='90%' mx='auto'>
-                <BotaoSelecaoIdioma idioma="en" nome='English'  />
-                <BotaoSelecaoIdioma idioma="pt" nome='Português'  />
+                <BotaoSelecaoIdioma idiomaBotao="en" nome='English' />
+                <BotaoSelecaoIdioma idiomaBotao="pt" nome='Português' />
             </VStack>
         </VStack>
     );
 }
 
-function BotaoSelecaoIdioma({idioma, nome}: {idioma: string, nome: string}) {
+function BotaoSelecaoIdioma({ idiomaBotao, nome }: { idiomaBotao: IIdioma, nome: string }) {
     const { i18n } = useTranslation();
+    const { idioma, setIdioma } = useChromaFinderContext();
 
-    function mudarIdioma(language: string) {
+    function mudarIdioma(language: IIdioma) {
         i18n.changeLanguage(language);
+        setIdioma(language);
     }
-    return(
+    return (
         <Button
             bg="#3f3f3f"
             h={14}
             borderRadius={10}
-            onPress={() => mudarIdioma(idioma)}
+            onPress={() => mudarIdioma(idiomaBotao)}
             justifyContent={'flex-start'}
             paddingLeft={10}
-            borderWidth={i18n.language === idioma ? 3 : 0}
-            borderColor={i18n.language === idioma ? 'green.500' : 'transparent'}
+            borderWidth={idioma === idiomaBotao ? 3 : 0}
+            borderColor={idioma === idiomaBotao ? 'green.500' : 'transparent'}
         >
             <Text
                 style={{ color: 'white', fontWeight: 'bold' }}
